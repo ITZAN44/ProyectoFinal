@@ -4,10 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.proyecto_final.ui.home.PantallaPrincipal
 import com.example.proyecto_final.ui.login.PantallaInicioSesion
 
-/** Grafo de navegación de la app. */
+/** Grafo de navegación raíz: autenticación y, ya logueado, el menú principal. */
 @Composable
 fun NavegacionApp(rutaInicial: String) {
     val navController = rememberNavController()
@@ -16,14 +15,14 @@ fun NavegacionApp(rutaInicial: String) {
         composable(Pantalla.InicioSesion.ruta) {
             PantallaInicioSesion(
                 onIngresar = {
-                    navController.navigate(Pantalla.Principal.ruta) {
+                    navController.navigate(Pantalla.Menu.ruta) {
                         popUpTo(Pantalla.InicioSesion.ruta) { inclusive = true }
                     }
                 }
             )
         }
-        composable(Pantalla.Principal.ruta) {
-            PantallaPrincipal()
+        composable(Pantalla.Menu.ruta) {
+            MenuPrincipal()
         }
     }
 }

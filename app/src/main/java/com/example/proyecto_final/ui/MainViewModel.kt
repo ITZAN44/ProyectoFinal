@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(
 
     val rutaInicial: StateFlow<String?> = gestorSesion.token
         .map { token ->
-            if (token.isNullOrBlank()) Pantalla.InicioSesion.ruta else Pantalla.Principal.ruta
+            if (token.isNullOrBlank()) Pantalla.InicioSesion.ruta else Pantalla.Menu.ruta
         }
         .stateIn(
             scope = viewModelScope,
