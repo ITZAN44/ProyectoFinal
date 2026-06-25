@@ -22,7 +22,13 @@ fun NavegacionApp(rutaInicial: String) {
             )
         }
         composable(Pantalla.Menu.ruta) {
-            MenuPrincipal()
+            MenuPrincipal(
+                alCerrarSesion = {
+                    navController.navigate(Pantalla.InicioSesion.ruta) {
+                        popUpTo(Pantalla.Menu.ruta) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.proyecto_final.ui.home.PantallaPrincipal
+import com.example.proyecto_final.ui.profile.PantallaPerfil
 
 /** Secciones del menú principal. Por ahora solo "Inicio" está implementada. */
 private enum class SeccionMenu(val titulo: String, val icono: ImageVector) {
@@ -35,7 +36,7 @@ private enum class SeccionMenu(val titulo: String, val icono: ImageVector) {
 
 /** Shell con barra de navegación inferior que aloja las pantallas principales. */
 @Composable
-fun MenuPrincipal() {
+fun MenuPrincipal(alCerrarSesion: () -> Unit) {
     var seccion by rememberSaveable { mutableStateOf(SeccionMenu.Inicio) }
 
     Scaffold(
@@ -62,7 +63,7 @@ fun MenuPrincipal() {
                 SeccionMenu.Grupos -> Placeholder("Grupos")
                 SeccionMenu.Partidos -> Placeholder("Partidos")
                 SeccionMenu.Mapa -> Placeholder("Mapa de sedes")
-                SeccionMenu.Perfil -> Placeholder("Perfil")
+                SeccionMenu.Perfil -> PantallaPerfil(onSesionCerrada = alCerrarSesion)
             }
         }
     }

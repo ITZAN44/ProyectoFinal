@@ -25,6 +25,10 @@ interface ApiService {
     @POST("api/login")
     suspend fun login(@Body solicitud: LoginRequest): LoginResponse
 
+    /** Revoca el token actual del usuario autenticado. */
+    @POST("api/logout")
+    suspend fun cerrarSesion(): Response<Unit>
+
     /** Perfil y estadísticas del usuario autenticado. */
     @GET("api/profile")
     suspend fun obtenerPerfil(): PerfilDto

@@ -14,4 +14,7 @@ interface PerfilDao {
 
     @Upsert
     suspend fun guardar(perfil: PerfilEntity)
+
+    @Query("DELETE FROM perfil")
+    suspend fun borrar()
 }
