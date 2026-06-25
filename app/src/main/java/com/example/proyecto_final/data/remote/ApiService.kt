@@ -1,5 +1,6 @@
 package com.example.proyecto_final.data.remote
 
+import com.example.proyecto_final.data.remote.dto.ActualizacionPartidosDto
 import com.example.proyecto_final.data.remote.dto.CrearGrupoRequest
 import com.example.proyecto_final.data.remote.dto.DetalleGrupoDto
 import com.example.proyecto_final.data.remote.dto.GrupoCreadoDto
@@ -63,4 +64,16 @@ interface ApiService {
     /** Próximos partidos programados (con next=true devuelve los próximos 10). */
     @GET("api/matches")
     suspend fun obtenerProximosPartidos(@Query("next") proximos: Boolean = true): List<PartidoDto>
+
+    /** Calendario completo. Los filtros nulos no se envían (Retrofit los omite). */
+    @GET("api/matches")
+    suspend fun obtenerPartidos(
+        @Query("phase") fase: String? = null,
+        @Query("status") estado: String? = null,
+        @Query("date") fecha: String? = null
+    ): List<PartidoDto>
+
+    /** Partidos modificados desde `since` (ISO8601). Devuelve { synced_at, games }. */
+    @GET("api/matches/updates")
+    suspend fun obtenerActualizaciones(@Query("since") desde: String): ActualizacionPartidosDto
 }

@@ -30,6 +30,7 @@ import androidx.navigation.navArgument
 import com.example.proyecto_final.ui.groups.PantallaDetalleGrupo
 import com.example.proyecto_final.ui.groups.PantallaMisGrupos
 import com.example.proyecto_final.ui.home.PantallaPrincipal
+import com.example.proyecto_final.ui.matches.PantallaPartidos
 import com.example.proyecto_final.ui.profile.PantallaPerfil
 
 /** Secciones del menú principal. Por ahora solo "Inicio" está implementada. */
@@ -68,7 +69,7 @@ fun MenuPrincipal(alCerrarSesion: () -> Unit) {
             when (seccion) {
                 SeccionMenu.Inicio -> PantallaPrincipal()
                 SeccionMenu.Grupos -> NavegacionGrupos()
-                SeccionMenu.Partidos -> Placeholder("Partidos")
+                SeccionMenu.Partidos -> PantallaPartidos()
                 SeccionMenu.Mapa -> Placeholder("Mapa de sedes")
                 SeccionMenu.Perfil -> PantallaPerfil(onSesionCerrada = alCerrarSesion)
             }

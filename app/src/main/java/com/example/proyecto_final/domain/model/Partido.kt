@@ -9,5 +9,8 @@ data class Partido(
     val fase: String?,
     val estado: String,
     val golesLocal: Int?,
-    val golesVisitante: Int?
+    val golesVisitante: Int?,
+    val estadioId: Int?,
+    val estadioNombre: String?,
+    val estadioCiudad: String?
 )

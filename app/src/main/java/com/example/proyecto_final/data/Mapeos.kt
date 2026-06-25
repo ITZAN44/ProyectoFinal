@@ -39,7 +39,10 @@ fun PartidoDto.aEntity() = PartidoEntity(
     fase = phase,
     estado = status,
     golesLocal = homeScore,
-    golesVisitante = awayScore
+    golesVisitante = awayScore,
+    estadioId = stadium?.id,
+    estadioNombre = stadium?.name,
+    estadioCiudad = stadium?.city
 )
 
 fun LeaderboardEntradaDto.aEntity(grupoId: Int) = ParticipanteGrupoEntity(
@@ -76,7 +79,10 @@ fun PartidoEntity.aDominio() = Partido(
     fase = fase,
     estado = estado,
     golesLocal = golesLocal,
-    golesVisitante = golesVisitante
+    golesVisitante = golesVisitante,
+    estadioId = estadioId,
+    estadioNombre = estadioNombre,
+    estadioCiudad = estadioCiudad
 )
 
 fun ParticipanteGrupoEntity.aDominio() = ParticipanteClasificado(

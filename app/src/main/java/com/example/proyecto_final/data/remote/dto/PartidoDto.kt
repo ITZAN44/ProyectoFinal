@@ -12,5 +12,21 @@ data class PartidoDto(
     val phase: String? = null,
     val status: String,
     @SerialName("home_score") val homeScore: Int? = null,
-    @SerialName("away_score") val awayScore: Int? = null
+    @SerialName("away_score") val awayScore: Int? = null,
+    val stadium: EstadioResumenDto? = null
+)
+
+/** Estadio tal como viene anidado en un partido. */
+@Serializable
+data class EstadioResumenDto(
+    val id: Int,
+    val name: String,
+    val city: String
+)
+
+/** Respuesta de `GET /matches/updates`. OJO: el array se llama `games`, no `matches`. */
+@Serializable
+data class ActualizacionPartidosDto(
+    @SerialName("synced_at") val sincronizadoEn: String,
+    val games: List<PartidoDto>
 )

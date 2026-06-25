@@ -15,3 +15,15 @@ fun estadoPartidoLegible(estado: String): String = when (estado) {
     "finished" -> "Finalizado"
     else -> estado
 }
+
+/** Traduce la fase del Mundial a una etiqueta legible. */
+fun faseLegible(fase: String): String = when (fase) {
+    "group" -> "Fase de grupos"
+    "round_of_32" -> "Dieciseisavos"
+    "round_of_16" -> "Octavos"
+    "quarter" -> "Cuartos"
+    "semi" -> "Semifinal"
+    "third_place" -> "Tercer puesto"
+    "final" -> "Final"
+    else -> fase
+}
