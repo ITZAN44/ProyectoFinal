@@ -13,6 +13,9 @@ interface GrupoDao {
     @Query("SELECT * FROM grupos ORDER BY nombre")
     fun observar(): Flow<List<GrupoEntity>>
 
+    @Query("SELECT * FROM grupos WHERE id = :id")
+    fun observarPorId(id: Int): Flow<GrupoEntity?>
+
     @Upsert
     suspend fun guardarTodos(grupos: List<GrupoEntity>)
 

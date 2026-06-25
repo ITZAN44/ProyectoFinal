@@ -1,5 +1,6 @@
 package com.example.proyecto_final.ui.groups
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +36,10 @@ import com.example.proyecto_final.domain.model.Grupo
 private enum class Dialogo { Crear, Unirse }
 
 @Composable
-fun PantallaMisGrupos(viewModel: MisGruposViewModel = hiltViewModel()) {
+fun PantallaMisGrupos(
+    alAbrirGrupo: (Int) -> Unit,
+    viewModel: MisGruposViewModel = hiltViewModel()
+) {
     val grupos by viewModel.grupos.collectAsState()
     val operacion by viewModel.operacion.collectAsState()
     var dialogo by remember { mutableStateOf<Dialogo?>(null) }
@@ -72,7 +76,9 @@ fun PantallaMisGrupos(viewModel: MisGruposViewModel = hiltViewModel()) {
             Text("Todavía no estás en ningún grupo.")
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(grupos, key = { it.id }) { grupo -> FilaGrupo(grupo) }
+                items(grupos, key = { it.id }) { grupo ->
+                    FilaGrupo(grupo, onClick = { alAbrirGrupo(grupo.id) })
+                }
             }
         }
     }
@@ -102,8 +108,8 @@ fun PantallaMisGrupos(viewModel: MisGruposViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun FilaGrupo(grupo: Grupo) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+private fun FilaGrupo(grupo: Grupo, onClick: () -> Unit) {
+    Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(grupo.nombre, style = MaterialTheme.typography.titleMedium)
             Text(

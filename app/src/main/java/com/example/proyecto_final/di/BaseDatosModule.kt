@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.proyecto_final.data.local.AppDatabase
 import com.example.proyecto_final.data.local.dao.GrupoDao
+import com.example.proyecto_final.data.local.dao.ParticipanteGrupoDao
 import com.example.proyecto_final.data.local.dao.PartidoDao
 import com.example.proyecto_final.data.local.dao.PerfilDao
 import dagger.Module
@@ -33,4 +34,8 @@ object BaseDatosModule {
 
     @Provides
     fun proveerPartidoDao(baseDatos: AppDatabase): PartidoDao = baseDatos.partidoDao()
+
+    @Provides
+    fun proveerParticipanteGrupoDao(baseDatos: AppDatabase): ParticipanteGrupoDao =
+        baseDatos.participanteGrupoDao()
 }

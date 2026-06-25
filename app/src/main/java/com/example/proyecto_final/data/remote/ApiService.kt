@@ -1,8 +1,10 @@
 package com.example.proyecto_final.data.remote
 
 import com.example.proyecto_final.data.remote.dto.CrearGrupoRequest
+import com.example.proyecto_final.data.remote.dto.DetalleGrupoDto
 import com.example.proyecto_final.data.remote.dto.GrupoCreadoDto
 import com.example.proyecto_final.data.remote.dto.GrupoDto
+import com.example.proyecto_final.data.remote.dto.LeaderboardEntradaDto
 import com.example.proyecto_final.data.remote.dto.LoginRequest
 import com.example.proyecto_final.data.remote.dto.LoginResponse
 import com.example.proyecto_final.data.remote.dto.PartidoDto
@@ -13,6 +15,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -48,6 +51,14 @@ interface ApiService {
     /** Se une a un grupo por código. 409 si ya es miembro, 404 si el código es inválido. */
     @POST("api/groups/join")
     suspend fun unirseAGrupo(@Body solicitud: UnirseGrupoRequest): UnirseGrupoDto
+
+    /** Detalle de un grupo (incluye los próximos partidos). 403 si no es miembro. */
+    @GET("api/groups/{id}")
+    suspend fun obtenerDetalleGrupo(@Path("id") id: Int): DetalleGrupoDto
+
+    /** Clasificación de un grupo, ordenada por puntaje. 403 si no es miembro. */
+    @GET("api/groups/{id}/leaderboard")
+    suspend fun obtenerClasificacion(@Path("id") id: Int): List<LeaderboardEntradaDto>
 
     /** Próximos partidos programados (con next=true devuelve los próximos 10). */
     @GET("api/matches")

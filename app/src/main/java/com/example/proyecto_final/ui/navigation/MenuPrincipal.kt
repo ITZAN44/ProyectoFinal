@@ -22,6 +22,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.proyecto_final.ui.groups.PantallaDetalleGrupo
 import com.example.proyecto_final.ui.groups.PantallaMisGrupos
 import com.example.proyecto_final.ui.home.PantallaPrincipal
 import com.example.proyecto_final.ui.profile.PantallaPerfil
@@ -61,11 +67,30 @@ fun MenuPrincipal(alCerrarSesion: () -> Unit) {
         ) {
             when (seccion) {
                 SeccionMenu.Inicio -> PantallaPrincipal()
-                SeccionMenu.Grupos -> PantallaMisGrupos()
+                SeccionMenu.Grupos -> NavegacionGrupos()
                 SeccionMenu.Partidos -> Placeholder("Partidos")
                 SeccionMenu.Mapa -> Placeholder("Mapa de sedes")
                 SeccionMenu.Perfil -> PantallaPerfil(onSesionCerrada = alCerrarSesion)
             }
+        }
+    }
+}
+
+/** Navegación interna de la sección Grupos: lista → detalle del grupo. */
+@Composable
+private fun NavegacionGrupos() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "lista") {
+        composable("lista") {
+            PantallaMisGrupos(
+                alAbrirGrupo = { grupoId -> navController.navigate("detalle/$grupoId") }
+            )
+        }
+        composable(
+            route = "detalle/{grupoId}",
+            arguments = listOf(navArgument("grupoId") { type = NavType.IntType })
+        ) {
+            PantallaDetalleGrupo(alVolver = { navController.popBackStack() })
         }
     }
 }
