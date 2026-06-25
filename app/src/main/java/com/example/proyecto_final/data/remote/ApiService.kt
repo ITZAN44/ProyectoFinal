@@ -8,8 +8,11 @@ import com.example.proyecto_final.data.remote.dto.GrupoDto
 import com.example.proyecto_final.data.remote.dto.LeaderboardEntradaDto
 import com.example.proyecto_final.data.remote.dto.LoginRequest
 import com.example.proyecto_final.data.remote.dto.LoginResponse
+import com.example.proyecto_final.data.remote.dto.CrearPronosticoRequest
 import com.example.proyecto_final.data.remote.dto.PartidoDto
 import com.example.proyecto_final.data.remote.dto.PerfilDto
+import com.example.proyecto_final.data.remote.dto.PronosticoCreadoDto
+import com.example.proyecto_final.data.remote.dto.PronosticoMeDto
 import com.example.proyecto_final.data.remote.dto.UnirseGrupoDto
 import com.example.proyecto_final.data.remote.dto.UnirseGrupoRequest
 import retrofit2.Response
@@ -76,4 +79,16 @@ interface ApiService {
     /** Partidos modificados desde `since` (ISO8601). Devuelve { synced_at, games }. */
     @GET("api/matches/updates")
     suspend fun obtenerActualizaciones(@Query("since") desde: String): ActualizacionPartidosDto
+
+    /** Detalle de un partido (mismo shape que la lista). */
+    @GET("api/matches/{id}")
+    suspend fun obtenerDetallePartido(@Path("id") id: Int): PartidoDto
+
+    /** Registra o actualiza (upsert) un pronóstico. 422 si el partido ya inició. */
+    @POST("api/predictions")
+    suspend fun crearPronostico(@Body solicitud: CrearPronosticoRequest): PronosticoCreadoDto
+
+    /** Pronósticos del usuario autenticado. */
+    @GET("api/predictions/me")
+    suspend fun obtenerMisPronosticos(): List<PronosticoMeDto>
 }

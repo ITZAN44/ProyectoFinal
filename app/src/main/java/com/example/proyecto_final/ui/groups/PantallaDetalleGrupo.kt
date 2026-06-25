@@ -1,5 +1,6 @@
 package com.example.proyecto_final.ui.groups
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import com.example.proyecto_final.ui.common.formatearFecha
 @Composable
 fun PantallaDetalleGrupo(
     alVolver: () -> Unit,
+    alAbrirPartido: (Int) -> Unit,
     viewModel: DetalleGrupoViewModel = hiltViewModel()
 ) {
     val estado by viewModel.estado.collectAsState()
@@ -101,7 +103,7 @@ fun PantallaDetalleGrupo(
                 item { Text("No hay próximos partidos.") }
             } else {
                 items(estado.proximosPartidos, key = { it.id }) { partido ->
-                    FilaPartido(partido)
+                    FilaPartido(partido, onClick = { alAbrirPartido(partido.id) })
                 }
             }
         }
@@ -120,8 +122,8 @@ private fun FilaClasificacion(participante: ParticipanteClasificado) {
 }
 
 @Composable
-private fun FilaPartido(partido: Partido) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+private fun FilaPartido(partido: Partido, onClick: () -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Text(
             text = "${partido.equipoLocal}  vs  ${partido.equipoVisitante}",
             fontWeight = FontWeight.Medium

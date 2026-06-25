@@ -28,6 +28,15 @@ class RepositorioPartidos @Inject constructor(
     /** Fechas disponibles en el calendario (para el filtro de fecha). */
     fun observarFechas(): Flow<List<String>> = partidoDao.observarFechas()
 
+    /** Un partido por id, desde Room (para el detalle). */
+    fun observarPartido(id: Int): Flow<Partido?> =
+        partidoDao.observarPorId(id).map { it?.aDominio() }
+
+    /** Refresca un partido puntual desde la API (resultado/estado actualizados). */
+    suspend fun sincronizarPartido(id: Int) {
+        partidoDao.guardarTodos(listOf(apiService.obtenerDetallePartido(id).aEntity()))
+    }
+
     suspend fun sincronizarProximos() {
         val dtos = apiService.obtenerProximosPartidos()
         partidoDao.guardarTodos(dtos.map { it.aEntity() })

@@ -4,14 +4,17 @@ import com.example.proyecto_final.data.local.entity.GrupoEntity
 import com.example.proyecto_final.data.local.entity.ParticipanteGrupoEntity
 import com.example.proyecto_final.data.local.entity.PartidoEntity
 import com.example.proyecto_final.data.local.entity.PerfilEntity
+import com.example.proyecto_final.data.local.entity.PronosticoEntity
 import com.example.proyecto_final.data.remote.dto.GrupoDto
 import com.example.proyecto_final.data.remote.dto.LeaderboardEntradaDto
 import com.example.proyecto_final.data.remote.dto.PartidoDto
 import com.example.proyecto_final.data.remote.dto.PerfilDto
+import com.example.proyecto_final.data.remote.dto.PronosticoMeDto
 import com.example.proyecto_final.domain.model.Grupo
 import com.example.proyecto_final.domain.model.Partido
 import com.example.proyecto_final.domain.model.ParticipanteClasificado
 import com.example.proyecto_final.domain.model.Perfil
+import com.example.proyecto_final.domain.model.Pronostico
 
 // --- DTO -> Entity ---
 
@@ -53,6 +56,14 @@ fun LeaderboardEntradaDto.aEntity(grupoId: Int) = ParticipanteGrupoEntity(
     posicion = position
 )
 
+fun PronosticoMeDto.aEntity() = PronosticoEntity(
+    matchId = matchId,
+    golesLocal = golesLocal,
+    golesVisitante = golesVisitante,
+    puntosObtenidos = puntosObtenidos,
+    estado = status
+)
+
 // --- Entity -> Dominio ---
 
 fun PerfilEntity.aDominio() = Perfil(
@@ -90,4 +101,12 @@ fun ParticipanteGrupoEntity.aDominio() = ParticipanteClasificado(
     nombre = nombre,
     puntaje = puntaje,
     posicion = posicion
+)
+
+fun PronosticoEntity.aDominio() = Pronostico(
+    matchId = matchId,
+    golesLocal = golesLocal,
+    golesVisitante = golesVisitante,
+    puntosObtenidos = puntosObtenidos,
+    estado = estado
 )

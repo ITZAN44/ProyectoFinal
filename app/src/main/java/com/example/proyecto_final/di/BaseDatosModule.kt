@@ -7,6 +7,7 @@ import com.example.proyecto_final.data.local.dao.GrupoDao
 import com.example.proyecto_final.data.local.dao.ParticipanteGrupoDao
 import com.example.proyecto_final.data.local.dao.PartidoDao
 import com.example.proyecto_final.data.local.dao.PerfilDao
+import com.example.proyecto_final.data.local.dao.PronosticoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,4 +39,7 @@ object BaseDatosModule {
     @Provides
     fun proveerParticipanteGrupoDao(baseDatos: AppDatabase): ParticipanteGrupoDao =
         baseDatos.participanteGrupoDao()
+
+    @Provides
+    fun proveerPronosticoDao(baseDatos: AppDatabase): PronosticoDao = baseDatos.pronosticoDao()
 }

@@ -30,6 +30,7 @@ import androidx.navigation.navArgument
 import com.example.proyecto_final.ui.groups.PantallaDetalleGrupo
 import com.example.proyecto_final.ui.groups.PantallaMisGrupos
 import com.example.proyecto_final.ui.home.PantallaPrincipal
+import com.example.proyecto_final.ui.matches.PantallaDetallePartido
 import com.example.proyecto_final.ui.matches.PantallaPartidos
 import com.example.proyecto_final.ui.profile.PantallaPerfil
 
@@ -69,7 +70,7 @@ fun MenuPrincipal(alCerrarSesion: () -> Unit) {
             when (seccion) {
                 SeccionMenu.Inicio -> PantallaPrincipal()
                 SeccionMenu.Grupos -> NavegacionGrupos()
-                SeccionMenu.Partidos -> PantallaPartidos()
+                SeccionMenu.Partidos -> NavegacionPartidos()
                 SeccionMenu.Mapa -> Placeholder("Mapa de sedes")
                 SeccionMenu.Perfil -> PantallaPerfil(onSesionCerrada = alCerrarSesion)
             }
@@ -77,7 +78,7 @@ fun MenuPrincipal(alCerrarSesion: () -> Unit) {
     }
 }
 
-/** Navegación interna de la sección Grupos: lista → detalle del grupo. */
+/** Navegación interna de la sección Grupos: lista → detalle del grupo → detalle del partido. */
 @Composable
 private fun NavegacionGrupos() {
     val navController = rememberNavController()
@@ -91,7 +92,35 @@ private fun NavegacionGrupos() {
             route = "detalle/{grupoId}",
             arguments = listOf(navArgument("grupoId") { type = NavType.IntType })
         ) {
-            PantallaDetalleGrupo(alVolver = { navController.popBackStack() })
+            PantallaDetalleGrupo(
+                alVolver = { navController.popBackStack() },
+                alAbrirPartido = { matchId -> navController.navigate("partido/$matchId") }
+            )
+        }
+        composable(
+            route = "partido/{matchId}",
+            arguments = listOf(navArgument("matchId") { type = NavType.IntType })
+        ) {
+            PantallaDetallePartido(alVolver = { navController.popBackStack() })
+        }
+    }
+}
+
+/** Navegación interna de la sección Partidos: lista → detalle del partido. */
+@Composable
+private fun NavegacionPartidos() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "lista") {
+        composable("lista") {
+            PantallaPartidos(
+                alAbrirPartido = { matchId -> navController.navigate("detalle/$matchId") }
+            )
+        }
+        composable(
+            route = "detalle/{matchId}",
+            arguments = listOf(navArgument("matchId") { type = NavType.IntType })
+        ) {
+            PantallaDetallePartido(alVolver = { navController.popBackStack() })
         }
     }
 }

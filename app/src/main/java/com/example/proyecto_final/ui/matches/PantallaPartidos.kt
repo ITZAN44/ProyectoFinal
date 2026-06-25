@@ -1,5 +1,6 @@
 package com.example.proyecto_final.ui.matches
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,10 @@ private val FASES = listOf("group", "round_of_32", "round_of_16", "quarter", "se
 private val ESTADOS = listOf("scheduled", "live", "finished")
 
 @Composable
-fun PantallaPartidos(viewModel: PartidosViewModel = hiltViewModel()) {
+fun PantallaPartidos(
+    alAbrirPartido: (Int) -> Unit,
+    viewModel: PartidosViewModel = hiltViewModel()
+) {
     val estado by viewModel.estado.collectAsState()
     val filtros = estado.filtros
 
@@ -82,7 +86,9 @@ fun PantallaPartidos(viewModel: PartidosViewModel = hiltViewModel()) {
             if (estado.partidos.isEmpty()) {
                 item { Text("No hay partidos para estos filtros.") }
             } else {
-                items(estado.partidos, key = { it.id }) { partido -> FilaPartido(partido) }
+                items(estado.partidos, key = { it.id }) { partido ->
+                    FilaPartido(partido, onClick = { alAbrirPartido(partido.id) })
+                }
             }
         }
     }
@@ -110,8 +116,8 @@ private fun FilaFiltro(
 }
 
 @Composable
-private fun FilaPartido(partido: Partido) {
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+private fun FilaPartido(partido: Partido, onClick: () -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 8.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween

@@ -13,6 +13,9 @@ interface PartidoDao {
     @Query("SELECT * FROM partidos WHERE estado = 'scheduled' ORDER BY fecha ASC LIMIT 10")
     fun observarProximos(): Flow<List<PartidoEntity>>
 
+    @Query("SELECT * FROM partidos WHERE id = :id")
+    fun observarPorId(id: Int): Flow<PartidoEntity?>
+
     /** Calendario filtrable. Cada filtro nulo no restringe (se combinan). */
     @Query(
         """

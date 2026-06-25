@@ -20,3 +20,9 @@ fun mensajeErrorUnirseGrupo(error: Throwable): String = when {
     error is HttpException && error.code() == 404 -> "Código de invitación inválido."
     else -> mensajeDeError(error)
 }
+
+/** Mensajes específicos al pronosticar. El 422 acá es "partido ya iniciado", NO credenciales. */
+fun mensajeErrorPronostico(error: Throwable): String = when {
+    error is HttpException && error.code() == 422 -> "No se puede pronosticar: el partido ya comenzó o finalizó."
+    else -> mensajeDeError(error)
+}
