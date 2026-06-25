@@ -13,3 +13,10 @@ fun mensajeDeError(error: Throwable): String = when (error) {
     }
     else -> "Ocurrió un error inesperado."
 }
+
+/** Mensajes específicos al unirse a un grupo (el genérico no cubre 409/404). */
+fun mensajeErrorUnirseGrupo(error: Throwable): String = when {
+    error is HttpException && error.code() == 409 -> "Ya sos miembro de este grupo."
+    error is HttpException && error.code() == 404 -> "Código de invitación inválido."
+    else -> mensajeDeError(error)
+}

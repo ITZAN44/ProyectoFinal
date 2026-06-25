@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.proyecto_final.ui.groups.PantallaMisGrupos
 import com.example.proyecto_final.ui.home.PantallaPrincipal
 import com.example.proyecto_final.ui.profile.PantallaPerfil
 
@@ -60,7 +61,7 @@ fun MenuPrincipal(alCerrarSesion: () -> Unit) {
         ) {
             when (seccion) {
                 SeccionMenu.Inicio -> PantallaPrincipal()
-                SeccionMenu.Grupos -> Placeholder("Grupos")
+                SeccionMenu.Grupos -> PantallaMisGrupos()
                 SeccionMenu.Partidos -> Placeholder("Partidos")
                 SeccionMenu.Mapa -> Placeholder("Mapa de sedes")
                 SeccionMenu.Perfil -> PantallaPerfil(onSesionCerrada = alCerrarSesion)

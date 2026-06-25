@@ -1,10 +1,14 @@
 package com.example.proyecto_final.data.remote
 
+import com.example.proyecto_final.data.remote.dto.CrearGrupoRequest
+import com.example.proyecto_final.data.remote.dto.GrupoCreadoDto
 import com.example.proyecto_final.data.remote.dto.GrupoDto
 import com.example.proyecto_final.data.remote.dto.LoginRequest
 import com.example.proyecto_final.data.remote.dto.LoginResponse
 import com.example.proyecto_final.data.remote.dto.PartidoDto
 import com.example.proyecto_final.data.remote.dto.PerfilDto
+import com.example.proyecto_final.data.remote.dto.UnirseGrupoDto
+import com.example.proyecto_final.data.remote.dto.UnirseGrupoRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -36,6 +40,14 @@ interface ApiService {
     /** Grupos del usuario con su puntaje en cada uno. */
     @GET("api/groups")
     suspend fun obtenerGrupos(): List<GrupoDto>
+
+    /** Crea un grupo nuevo. Devuelve su código de invitación. */
+    @POST("api/groups")
+    suspend fun crearGrupo(@Body solicitud: CrearGrupoRequest): GrupoCreadoDto
+
+    /** Se une a un grupo por código. 409 si ya es miembro, 404 si el código es inválido. */
+    @POST("api/groups/join")
+    suspend fun unirseAGrupo(@Body solicitud: UnirseGrupoRequest): UnirseGrupoDto
 
     /** Próximos partidos programados (con next=true devuelve los próximos 10). */
     @GET("api/matches")
