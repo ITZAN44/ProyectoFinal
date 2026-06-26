@@ -3,6 +3,7 @@ package com.example.proyecto_final.di
 import android.content.Context
 import androidx.room.Room
 import com.example.proyecto_final.data.local.AppDatabase
+import com.example.proyecto_final.data.local.dao.EstadioDao
 import com.example.proyecto_final.data.local.dao.GrupoDao
 import com.example.proyecto_final.data.local.dao.ParticipanteGrupoDao
 import com.example.proyecto_final.data.local.dao.PartidoDao
@@ -42,4 +43,7 @@ object BaseDatosModule {
 
     @Provides
     fun proveerPronosticoDao(baseDatos: AppDatabase): PronosticoDao = baseDatos.pronosticoDao()
+
+    @Provides
+    fun proveerEstadioDao(baseDatos: AppDatabase): EstadioDao = baseDatos.estadioDao()
 }

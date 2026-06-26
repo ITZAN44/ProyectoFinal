@@ -1,15 +1,18 @@
 package com.example.proyecto_final.data
 
+import com.example.proyecto_final.data.local.entity.EstadioEntity
 import com.example.proyecto_final.data.local.entity.GrupoEntity
 import com.example.proyecto_final.data.local.entity.ParticipanteGrupoEntity
 import com.example.proyecto_final.data.local.entity.PartidoEntity
 import com.example.proyecto_final.data.local.entity.PerfilEntity
 import com.example.proyecto_final.data.local.entity.PronosticoEntity
+import com.example.proyecto_final.data.remote.dto.EstadioDto
 import com.example.proyecto_final.data.remote.dto.GrupoDto
 import com.example.proyecto_final.data.remote.dto.LeaderboardEntradaDto
 import com.example.proyecto_final.data.remote.dto.PartidoDto
 import com.example.proyecto_final.data.remote.dto.PerfilDto
 import com.example.proyecto_final.data.remote.dto.PronosticoMeDto
+import com.example.proyecto_final.domain.model.Estadio
 import com.example.proyecto_final.domain.model.Grupo
 import com.example.proyecto_final.domain.model.Partido
 import com.example.proyecto_final.domain.model.ParticipanteClasificado
@@ -64,6 +67,16 @@ fun PronosticoMeDto.aEntity() = PronosticoEntity(
     estado = status
 )
 
+fun EstadioDto.aEntity() = EstadioEntity(
+    id = id,
+    nombre = name,
+    ciudad = city,
+    pais = country,
+    latitud = latitude,
+    longitud = longitude,
+    capacidad = capacity
+)
+
 // --- Entity -> Dominio ---
 
 fun PerfilEntity.aDominio() = Perfil(
@@ -109,4 +122,14 @@ fun PronosticoEntity.aDominio() = Pronostico(
     golesVisitante = golesVisitante,
     puntosObtenidos = puntosObtenidos,
     estado = estado
+)
+
+fun EstadioEntity.aDominio() = Estadio(
+    id = id,
+    nombre = nombre,
+    ciudad = ciudad,
+    pais = pais,
+    latitud = latitud,
+    longitud = longitud,
+    capacidad = capacidad
 )

@@ -3,6 +3,7 @@ package com.example.proyecto_final.data.remote
 import com.example.proyecto_final.data.remote.dto.ActualizacionPartidosDto
 import com.example.proyecto_final.data.remote.dto.CrearGrupoRequest
 import com.example.proyecto_final.data.remote.dto.DetalleGrupoDto
+import com.example.proyecto_final.data.remote.dto.EstadioDto
 import com.example.proyecto_final.data.remote.dto.GrupoCreadoDto
 import com.example.proyecto_final.data.remote.dto.GrupoDto
 import com.example.proyecto_final.data.remote.dto.LeaderboardEntradaDto
@@ -91,4 +92,8 @@ interface ApiService {
     /** Pronósticos del usuario autenticado. */
     @GET("api/predictions/me")
     suspend fun obtenerMisPronosticos(): List<PronosticoMeDto>
+
+    /** Lista las 16 sedes oficiales del Mundial. */
+    @GET("api/stadiums")
+    suspend fun obtenerEstadios(): List<EstadioDto>
 }

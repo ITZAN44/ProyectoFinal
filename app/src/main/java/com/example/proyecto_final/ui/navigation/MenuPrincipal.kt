@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
@@ -33,6 +32,7 @@ import com.example.proyecto_final.ui.home.PantallaPrincipal
 import com.example.proyecto_final.ui.matches.PantallaDetallePartido
 import com.example.proyecto_final.ui.matches.PantallaPartidos
 import com.example.proyecto_final.ui.profile.PantallaPerfil
+import com.example.proyecto_final.ui.stadiums.PantallaMapaSedes
 
 /** Secciones del menú principal. Por ahora solo "Inicio" está implementada. */
 private enum class SeccionMenu(val titulo: String, val icono: ImageVector) {
@@ -71,7 +71,7 @@ fun MenuPrincipal(alCerrarSesion: () -> Unit) {
                 SeccionMenu.Inicio -> PantallaPrincipal()
                 SeccionMenu.Grupos -> NavegacionGrupos()
                 SeccionMenu.Partidos -> NavegacionPartidos()
-                SeccionMenu.Mapa -> Placeholder("Mapa de sedes")
+                SeccionMenu.Mapa -> PantallaMapaSedes()
                 SeccionMenu.Perfil -> PantallaPerfil(onSesionCerrada = alCerrarSesion)
             }
         }
@@ -122,12 +122,5 @@ private fun NavegacionPartidos() {
         ) {
             PantallaDetallePartido(alVolver = { navController.popBackStack() })
         }
-    }
-}
-
-@Composable
-private fun Placeholder(titulo: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("$titulo (próximamente)")
     }
 }
