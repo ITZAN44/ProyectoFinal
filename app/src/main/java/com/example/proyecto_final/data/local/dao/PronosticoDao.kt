@@ -13,6 +13,9 @@ interface PronosticoDao {
     @Query("SELECT * FROM pronosticos WHERE matchId = :matchId")
     fun observarPorPartido(matchId: Int): Flow<PronosticoEntity?>
 
+    @Query("SELECT * FROM pronosticos")
+    fun observarTodos(): Flow<List<PronosticoEntity>>
+
     @Upsert
     suspend fun guardar(pronostico: PronosticoEntity)
 

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.proyecto_final.domain.model.Partido
+import com.example.proyecto_final.domain.model.Pronostico
 import com.example.proyecto_final.ui.common.estadoPartidoLegible
 import com.example.proyecto_final.ui.common.faseLegible
 import com.example.proyecto_final.ui.common.formatearFecha
@@ -87,7 +88,11 @@ fun PantallaPartidos(
                 item { Text("No hay partidos para estos filtros.") }
             } else {
                 items(estado.partidos, key = { it.id }) { partido ->
-                    FilaPartido(partido, onClick = { alAbrirPartido(partido.id) })
+                    FilaPartido(
+                        partido = partido,
+                        pronostico = estado.pronosticos[partido.id],
+                        onClick = { alAbrirPartido(partido.id) }
+                    )
                 }
             }
         }
@@ -116,7 +121,7 @@ private fun FilaFiltro(
 }
 
 @Composable
-private fun FilaPartido(partido: Partido, onClick: () -> Unit) {
+private fun FilaPartido(partido: Partido, pronostico: Pronostico?, onClick: () -> Unit) {
     Column(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 8.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -137,6 +142,14 @@ private fun FilaPartido(partido: Partido, onClick: () -> Unit) {
         partido.estadioNombre?.let { nombre ->
             val ciudad = partido.estadioCiudad?.let { ", $it" } ?: ""
             Text("$nombre$ciudad", style = MaterialTheme.typography.bodySmall)
+        }
+        pronostico?.let {
+            val puntos = if (partido.estado == "finished") " · ${it.puntosObtenidos} pts" else ""
+            Text(
+                text = "Tu pronóstico: ${it.golesLocal} - ${it.golesVisitante}$puntos",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
         Row(
             modifier = Modifier.fillMaxWidth().padding(top = 2.dp),

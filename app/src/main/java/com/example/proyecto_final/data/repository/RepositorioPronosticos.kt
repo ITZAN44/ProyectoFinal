@@ -19,6 +19,10 @@ class RepositorioPronosticos @Inject constructor(
     fun observarPronostico(matchId: Int): Flow<Pronostico?> =
         pronosticoDao.observarPorPartido(matchId).map { it?.aDominio() }
 
+    /** Todos los pronósticos del usuario (para mostrarlos en la lista de partidos). */
+    val pronosticos: Flow<List<Pronostico>> =
+        pronosticoDao.observarTodos().map { lista -> lista.map { it.aDominio() } }
+
     /** Registra/actualiza el pronóstico (upsert) y refresca desde la API. */
     suspend fun guardarPronostico(matchId: Int, golesLocal: Int, golesVisitante: Int): Result<Unit> =
         runCatching {
