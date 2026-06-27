@@ -40,7 +40,10 @@ import kotlin.coroutines.resume
 private val CENTRO_DEFECTO = LatLng(39.5, -98.35)
 
 @Composable
-fun PantallaMapaSedes(viewModel: MapaSedesViewModel = hiltViewModel()) {
+fun PantallaMapaSedes(
+    alAbrirSede: (Int) -> Unit = {},
+    viewModel: MapaSedesViewModel = hiltViewModel()
+) {
     val estado by viewModel.estado.collectAsState()
     val contexto = LocalContext.current
 
@@ -80,7 +83,8 @@ fun PantallaMapaSedes(viewModel: MapaSedesViewModel = hiltViewModel()) {
                         position = LatLng(estadio.latitud, estadio.longitud)
                     ),
                     title = estadio.nombre,
-                    snippet = "${estadio.ciudad}, ${estadio.pais} · ${"%,d".format(estadio.capacidad)}"
+                    snippet = "${estadio.ciudad}, ${estadio.pais} · ${"%,d".format(estadio.capacidad)}",
+                    onInfoWindowClick = { alAbrirSede(estadio.id) }
                 )
             }
         }

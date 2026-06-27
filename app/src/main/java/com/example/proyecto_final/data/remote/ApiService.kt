@@ -96,4 +96,12 @@ interface ApiService {
     /** Lista las 16 sedes oficiales del Mundial. */
     @GET("api/stadiums")
     suspend fun obtenerEstadios(): List<EstadioDto>
+
+    /** Detalle de una sede (mismo shape que la lista). */
+    @GET("api/stadiums/{id}")
+    suspend fun obtenerDetalleEstadio(@Path("id") id: Int): EstadioDto
+
+    /** Partidos de una sede, ordenados por fecha. NO trae el estadio anidado (lo da la URL). */
+    @GET("api/stadiums/{id}/matches")
+    suspend fun obtenerPartidosDeEstadio(@Path("id") id: Int): List<PartidoDto>
 }

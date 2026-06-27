@@ -24,6 +24,13 @@ class InterceptorAutenticacion @Inject constructor(
                 }
             }
             .build()
-        return chain.proceed(solicitud)
+        val respuesta = chain.proceed(solicitud)
+        // Token revocado o expirado: el server responde 401. Limpiamos la sesión para forzar
+        // el reingreso. Solo ante un 401 real (con token enviado): sin internet la llamada falla
+        // con IOException, NO con 401, así el modo offline nunca cierra la sesión.
+        if (respuesta.code == 401 && !token.isNullOrBlank()) {
+            runBlocking { gestorSesion.limpiarSesion() }
+        }
+        return respuesta
     }
 }

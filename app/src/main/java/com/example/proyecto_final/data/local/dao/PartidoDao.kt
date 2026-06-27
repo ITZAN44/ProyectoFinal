@@ -32,6 +32,10 @@ interface PartidoDao {
     @Query("SELECT DISTINCT substr(fecha, 1, 10) AS dia FROM partidos ORDER BY dia ASC")
     fun observarFechas(): Flow<List<String>>
 
+    /** Partidos de un estadio (para el detalle de la sede). */
+    @Query("SELECT * FROM partidos WHERE estadioId = :estadioId ORDER BY fecha ASC")
+    fun observarPorEstadio(estadioId: Int): Flow<List<PartidoEntity>>
+
     @Upsert
     suspend fun guardarTodos(partidos: List<PartidoEntity>)
 }

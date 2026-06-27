@@ -32,6 +32,7 @@ import com.example.proyecto_final.ui.home.PantallaPrincipal
 import com.example.proyecto_final.ui.matches.PantallaDetallePartido
 import com.example.proyecto_final.ui.matches.PantallaPartidos
 import com.example.proyecto_final.ui.profile.PantallaPerfil
+import com.example.proyecto_final.ui.stadiums.PantallaDetalleEstadio
 import com.example.proyecto_final.ui.stadiums.PantallaMapaSedes
 
 /** Secciones del menú principal. Por ahora solo "Inicio" está implementada. */
@@ -45,7 +46,7 @@ private enum class SeccionMenu(val titulo: String, val icono: ImageVector) {
 
 /** Shell con barra de navegación inferior que aloja las pantallas principales. */
 @Composable
-fun MenuPrincipal(alCerrarSesion: () -> Unit) {
+fun MenuPrincipal() {
     var seccion by rememberSaveable { mutableStateOf(SeccionMenu.Inicio) }
 
     Scaffold(
@@ -71,8 +72,8 @@ fun MenuPrincipal(alCerrarSesion: () -> Unit) {
                 SeccionMenu.Inicio -> PantallaPrincipal()
                 SeccionMenu.Grupos -> NavegacionGrupos()
                 SeccionMenu.Partidos -> NavegacionPartidos()
-                SeccionMenu.Mapa -> PantallaMapaSedes()
-                SeccionMenu.Perfil -> PantallaPerfil(onSesionCerrada = alCerrarSesion)
+                SeccionMenu.Mapa -> NavegacionSedes()
+                SeccionMenu.Perfil -> PantallaPerfil()
             }
         }
     }
@@ -93,6 +94,34 @@ private fun NavegacionGrupos() {
             arguments = listOf(navArgument("grupoId") { type = NavType.IntType })
         ) {
             PantallaDetalleGrupo(
+                alVolver = { navController.popBackStack() },
+                alAbrirPartido = { matchId -> navController.navigate("partido/$matchId") }
+            )
+        }
+        composable(
+            route = "partido/{matchId}",
+            arguments = listOf(navArgument("matchId") { type = NavType.IntType })
+        ) {
+            PantallaDetallePartido(alVolver = { navController.popBackStack() })
+        }
+    }
+}
+
+/** Navegación interna de la sección Mapa: mapa → detalle de sede → detalle del partido. */
+@Composable
+private fun NavegacionSedes() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "mapa") {
+        composable("mapa") {
+            PantallaMapaSedes(
+                alAbrirSede = { estadioId -> navController.navigate("detalle/$estadioId") }
+            )
+        }
+        composable(
+            route = "detalle/{estadioId}",
+            arguments = listOf(navArgument("estadioId") { type = NavType.IntType })
+        ) {
+            PantallaDetalleEstadio(
                 alVolver = { navController.popBackStack() },
                 alAbrirPartido = { matchId -> navController.navigate("partido/$matchId") }
             )
